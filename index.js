@@ -7,10 +7,10 @@ const app = express();
 const server = http.createServer(app);
 const cookieParser = require("cookie-parser");
 
-
 const { Telegraf } = require('telegraf')
 const bot = new Telegraf(process.env.BOT_TOKEN)
 const { convertTextToJson } = require('./utils/convertTextToJson');
+const { writeFile } = require('./utils/fileManagement');
 
 const homeRoutes = require('./routes/home');
 const userRoutes = require('./routes/user');
@@ -38,10 +38,13 @@ app.use(function(req, res, next) {
 // telegram bot
 bot.start((ctx) => console.log('Welcome'))
 bot.on('text', async (ctx) => {
-  const text = convertTextToJson(ctx.message.text);
+  const newSignal = convertTextToJson(ctx.message.text);
+  
+  if (!newSignal) return
 
-  if (!text) return
-  ctx.reply(text)
+  await writeFile('signal.json', newSignal);
+
+  return ctx.reply(newSignal)
 })
 bot.launch()
 

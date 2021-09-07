@@ -7,6 +7,9 @@
     "start": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "nodemonConfig": {
+    "ignore": ["./signal.json"]
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {
