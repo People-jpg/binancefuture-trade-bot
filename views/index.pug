@@ -1,0 +1,17 @@
+extends layout
+
+block content
+  h1 Login
+  if status
+    .alert.alert-success= status
+  if error 
+    .alert.alert-danger= error
+  
+  form.d-flex.flex-column.w-5(action="/user/login", method="POST")
+    .form-group
+      label User
+      input.form-control(type="text",name='user')
+    .form-group
+      label Password
+      input.form-control(type="text",name='password')
+    button.btn.btn-primary.button Login
